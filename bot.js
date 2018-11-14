@@ -74,7 +74,7 @@ client.on('message', async msg => {
                                         const embed1 = new Discord.RichEmbed()
                                 .setDescription(`**الرجآء من حضرتك إختيآر رقم المقطع** :
 ${videos.map(video2 => `[**${++index}**] **${video2.title}**`).join('\n')}`)
-                                        .setFooter("Shadow Server")
+                    .setFooter(msg.guild.name, msg.guild.iconURL)
                                         msg.channel.sendEmbed(embed1).then(message =>{
                                                 message.delete(15000)
                                         });
