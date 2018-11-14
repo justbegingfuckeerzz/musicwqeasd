@@ -234,7 +234,7 @@ function play(guild, song) {
   .addField(' Time :' , `${song.time}`, true)
   .addField('Channel Name :' , `${song.best}`, true)
   .addField('Video Created at :' , `${fuck.datePublished}`, true)
-.addField('Views :' , `${fuck.views.toSrting()}`, true)
+  .addField('Views :' , fuck.views.toLocaleString(), true)
   .addField('Like👍 :' , `${fuck.likeCount}`, true)
   .addField('dislike👎 :' , `${fuck.dislikeCount}`, true)
   .addField('comments :' , `${fuck.commentCount}`, true)
