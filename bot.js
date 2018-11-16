@@ -234,7 +234,7 @@ function play(guild, song) {
   .addField('Comments :' , fuck.commentCount.toLocaleString(), true)
         .setImage(`${song.eyad}`)
         .setThumbnail('http://cdn.akhbaar24.com/430e061a-f89a-43c7-86d9-82fae5f7c495.jpg')
-        .setColor('#0x302e2e')
+        .setColor('#363940')
         .setTimestamp()
         }).then(love => {
                 love.react('👍').then(r=>{
@@ -262,7 +262,7 @@ function play(guild, song) {
   .addField('Comments :' , fuck.commentCount.toLocaleString(), true)
         .setImage(`${song.eyad}`)
         .setThumbnail('http://cdn.akhbaar24.com/430e061a-f89a-43c7-86d9-82fae5f7c495.jpg')
-        .setColor('#0x302e2e')
+        .setColor('#363940')
         .setTimestamp()
 });
     })
@@ -281,7 +281,7 @@ function play(guild, song) {
   .addField('Comments :' , fuck.commentCount.toLocaleString(), true)
         .setImage(`${song.eyad}`)
         .setThumbnail('http://cdn.akhbaar24.com/430e061a-f89a-43c7-86d9-82fae5f7c495.jpg')
-        .setColor('#0x302e2e')
+        .setColor('#363940')
         .setTimestamp()
 });
 })
@@ -298,7 +298,7 @@ function play(guild, song) {
   .addField('Comments :' , fuck.commentCount.toLocaleString(), true)
         .setImage(`${song.eyad}`)
         .setThumbnail('http://cdn.akhbaar24.com/430e061a-f89a-43c7-86d9-82fae5f7c495.jpg')
-        .setColor('#0x302e2e')
+        .setColor('#363940')
         .setTimestamp()
 });
 })
