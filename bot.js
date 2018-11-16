@@ -33,6 +33,7 @@ client.on('message', async msg => {
         if (command === `play`) {
                 if(!args[0]) {
                 return message.reply('يرجي كتابه اسم المقطع')
+}
                 const voiceChannel = msg.member.voiceChannel;
                 if (!voiceChannel) return msg.channel.send('يجب التواجد في الروم الصوتي');
                 const permissions = voiceChannel.permissionsFor(msg.client.user);
