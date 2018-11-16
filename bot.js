@@ -9,15 +9,6 @@ const fs = require('fs')
 const queue = new Map();
 const client = new Discord.Client({autoreconnect: true});
 
-/*
-البكجآت
-npm install discord.js
-npm install ytdl-core
-npm install get-youtube-id
-npm install youtube-info
-npm install simple-youtube-api
-npm install queue
-*/
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -40,18 +31,20 @@ client.on('message', async msg => {
         let command = msg.content.toLowerCase().split(" ")[0];
         command = command.slice(prefix.length)
         if (command === `play`) {
+                if(!args[0]) {
+                return message.reply('يرجي كتابه اسم المقطع')
                 const voiceChannel = msg.member.voiceChannel;
-                if (!voiceChannel) return msg.channel.send('يجب توآجد حضرتك بروم صوتي .');
+                if (!voiceChannel) return msg.channel.send('يجب التواجد في الروم الصوتي');
                 const permissions = voiceChannel.permissionsFor(msg.client.user);
                 if (!permissions.has('CONNECT')) {
-                        return msg.channel.send('لا يتوآجد لدي صلاحية للتكلم بهذآ الروم');
+                        return msg.channel.send('لا استطيع ان ادخل الروم');
                 }
                 if (!permissions.has('SPEAK')) {
-                        return msg.channel.send('لا يتوآجد لدي صلاحية للتكلم بهذآ الروم');
+                        return msg.channel.send('لا استطيع تشغيل آي مقطع موسيقي');
                 }
 
                 if (!permissions.has('EMBED_LINKS')) {
-                        return msg.channel.sendMessage("**يجب توآفر برمشن `EMBED LINKS`لدي **rl")
+                        return msg.channel.sendMessage("يجب توافر صلاحيه الامبد")
                         }
 
                 if (url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
@@ -69,11 +62,11 @@ client.on('message', async msg => {
 
                         } catch (error) {
                                 try {
-                                        var videos = await youtube.searchVideos(searchString, 10);
+                                        var videos = await youtube.searchVideos(searchString, 5);
                                         let index = 0;
                                         const embed1 = new Discord.RichEmbed()
-                                .setDescription(`**الرجآء من حضرتك إختيآر رقم المقطع** :
-${videos.map(video2 => `[**${++index}**] **${video2.title}**`).join('\n')}`)
+                                .setDescription(`**اختر رقم المقطع** :
+${videos.map(video2 => `[**${++index}**] **\`${video2.title}\`**`).join('\n')}`)
                     .setFooter(msg.guild.name, msg.guild.iconURL)
                                         msg.channel.sendEmbed(embed1).then(message =>{
                                                 message.delete(15000)
@@ -88,13 +81,13 @@ ${videos.map(video2 => `[**${++index}**] **${video2.title}**`).join('\n')}`)
 
                                         } catch (err) {
                                                 console.error(err);
-                                                return msg.channel.send('لم يتم إختيآر مقطع صوتي');
+                                                return msg.channel.send('عذراً , لم يتم اختيار المقطع المراد تشغيلة');
                                         }
                                         const videoIndex = parseInt(response.first().content);
                                         var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
                                 } catch (err) {
                                         console.error(err);
-                                        return msg.channel.send(':x: لا يتوفر نتآئج بحث ');
+                                        return msg.channel.send(':x: لا يتوفر نتائج بحث ');
                                 }
                         }
 
@@ -102,14 +95,14 @@ ${videos.map(video2 => `[**${++index}**] **${video2.title}**`).join('\n')}`)
                 }
         } else if (command === `skip`) {
                 if (!msg.member.voiceChannel) return msg.channel.send('أنت لست بروم صوتي .');
-                if (!serverQueue) return msg.channel.send('لا يتوفر مقطع لتجآوزه');
-                serverQueue.connection.dispatcher.end('تم تجآوز هذآ المقطع');
+                if (!serverQueue) return msg.channel.send('لا يتوفر مقطع لتجاوزه');
+                serverQueue.connection.dispatcher.end('تم تجاوز هذا المقطع');
                 return undefined;
         } else if (command === `stop`) {
                 if (!msg.member.voiceChannel) return msg.channel.send('أنت لست بروم صوتي .');
-                if (!serverQueue) return msg.channel.send('لا يتوفر مقطع لإيقآفه');
+                if (!serverQueue) return msg.channel.send('لا يتوفر مقطع لإيقافه');
                 serverQueue.songs = [];
-                serverQueue.connection.dispatcher.end('تم إيقآف هذآ المقطع');
+                serverQueue.connection.dispatcher.end('تم إيقاف هذا المقطع');
                 return undefined;
         } else if (command === `vol`) {
                 if (!msg.member.voiceChannel) return msg.channel.send('أنت لست بروم صوتي .');
@@ -191,7 +184,7 @@ async function handleVideo(video, msg, voiceChannel, playlist = false) {
                 } catch (error) {
                         console.error(`I could not join the voice channel: ${error}`);
                         queue.delete(msg.guild.id);
-                        return msg.channel.send(`لا أستطيع دخول هذآ الروم ${error}`);
+                        return msg.channel.send(`لا أستطيع دخول هذا الروم ${error}`);
                 }
         } else {
                 serverQueue.songs.push(song);
@@ -240,7 +233,7 @@ function play(guild, song) {
   .addField('Comments :' , fuck.commentCount.toLocaleString(), true)
         .setImage(`${song.eyad}`)
         .setThumbnail('http://cdn.akhbaar24.com/430e061a-f89a-43c7-86d9-82fae5f7c495.jpg')
-        .setColor('#ff0000')
+        .setColor('#0x302e2e')
         .setTimestamp()
         }).then(love => {
                 love.react('👍').then(r=>{
@@ -268,7 +261,7 @@ function play(guild, song) {
   .addField('Comments :' , fuck.commentCount.toLocaleString(), true)
         .setImage(`${song.eyad}`)
         .setThumbnail('http://cdn.akhbaar24.com/430e061a-f89a-43c7-86d9-82fae5f7c495.jpg')
-        .setColor('#ff0000')
+        .setColor('#0x302e2e')
         .setTimestamp()
 });
     })
@@ -282,12 +275,12 @@ function play(guild, song) {
   .addField('Channel Name :' , `${song.best}`, true)
   .addField('Video Created at :' , `${fuck.datePublished}`, true)
   .addField('Views :' , fuck.views.toLocaleString(), true)
-  .addField('👍 Likes :' , fuck.likeCount.toLocaleString(), true)
+  .addField('👍 Likes :' , yyyy[msg.guild.id].like.toLocaleString(), true)
   .addField('👎 Dislike :' , fuck.dislikeCount.toLocaleString(), true)
   .addField('Comments :' , fuck.commentCount.toLocaleString(), true)
         .setImage(`${song.eyad}`)
         .setThumbnail('http://cdn.akhbaar24.com/430e061a-f89a-43c7-86d9-82fae5f7c495.jpg')
-        .setColor('#ff0000')
+        .setColor('#0x302e2e')
         .setTimestamp()
 });
 })
@@ -300,11 +293,11 @@ function play(guild, song) {
   .addField('Video Created at :' , `${fuck.datePublished}`, true)
   .addField('Views :' , fuck.views.toLocaleString(), true)
   .addField('👍 Likes :' , fuck.likeCount.toLocaleString(), true)
-  .addField('👎 Dislike :' , fuck.dislikeCount.toLocaleString(), true)
+  .addField('👎 Dislike :' , yyyy[msg.guild.id].dislike.toLocaleString(), true)
   .addField('Comments :' , fuck.commentCount.toLocaleString(), true)
         .setImage(`${song.eyad}`)
         .setThumbnail('http://cdn.akhbaar24.com/430e061a-f89a-43c7-86d9-82fae5f7c495.jpg')
-        .setColor('#ff0000')
+        .setColor('#0x302e2e')
         .setTimestamp()
 });
 })
